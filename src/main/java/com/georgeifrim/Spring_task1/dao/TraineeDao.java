@@ -122,7 +122,6 @@ public class TraineeDao {
                         };
                 writer.writeNext(data);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }

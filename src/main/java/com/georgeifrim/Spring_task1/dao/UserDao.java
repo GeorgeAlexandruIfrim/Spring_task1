@@ -86,7 +86,6 @@ public class UserDao {
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
 
-            // Append new data to the file
             for (Map.Entry<Integer, User> entry : users.entrySet()) {
                 Integer key = entry.getKey();
                 User value = entry.getValue();
@@ -98,7 +97,6 @@ public class UserDao {
                         value.isActive() ? "true" : "false"};
                 writer.writeNext(data);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,7 +120,7 @@ public class UserDao {
                     newUsers.put(userId, user);
                 }
             }
-            // Update the users field with the new data
+
             users.clear();
             users.putAll(newUsers);
         } catch (IOException | CsvException e) {

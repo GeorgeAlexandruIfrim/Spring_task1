@@ -13,16 +13,11 @@ import java.util.TreeMap;
 public class TrainingDao {
 
     private final TreeMap<Integer, Training> trainings = new TreeMap<>();
-
     @Value("${training.csvFile}")
     private String csvFile;
-
     private final Logger logger = LogManager.getLogger(TrainingDao.class);
-
     private final UserDao userDao;
-
     private final TrainerDao trainerDao;
-
     private final TrainingType trainingType;
 
     public TrainingDao(UserDao userDao, TrainerDao trainerDao, TrainingType trainingType) {
