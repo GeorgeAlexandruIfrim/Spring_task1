@@ -17,27 +17,27 @@ public class TraineeController {
         this.traineeDao = traineeDao;
     }
 
-    @GetMapping("/allTrainees")
+    @GetMapping("/trainees")
     public TreeMap<Integer,Trainee> getAllTrainees(){
         return traineeDao.getTrainees();
     }
-    @GetMapping("/trainee/{id}")
+    @GetMapping("/trainees/{id}")
     public Trainee getTrainee(@PathVariable int id){
         return traineeDao.getTraineeById(id);
     }
 
-    @PutMapping("/trainee")
+    @PostMapping("/trainees")
     public Trainee createTrainee(@RequestBody Trainee trainee){
         return traineeDao.createTrainee(trainee);
     }
 
-    @PatchMapping("/updateTrainee/{id}")
+    @PutMapping("/trainees/{id}")
     public Trainee updateTrainee(@PathVariable int id,
                                  @RequestBody Trainee trainee){
         return traineeDao.updateTrainee(id, trainee);
     }
 
-    @DeleteMapping("/deleteTrainee/{id}")
+    @DeleteMapping("/trainees/{id}")
     public Trainee deleteTrainee(@PathVariable int id){
         return traineeDao.deleteTrainee(id);
     }

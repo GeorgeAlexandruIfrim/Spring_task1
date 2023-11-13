@@ -1,13 +1,13 @@
 package com.georgeifrim.Spring_task1.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Random;
 
-@Getter
-@Setter
+@Data
 public class User {
 
     public static int userId = 0;

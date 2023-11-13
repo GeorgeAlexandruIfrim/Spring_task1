@@ -13,11 +13,11 @@ public class TrainerController {
         this.trainerDao = trainerDao;
     }
 
-    @PutMapping("/trainer")
+    @PutMapping("/trainers")
     public Trainer createTrainer(@RequestBody Trainer trainer){
         return trainerDao.createTrainer(trainer);
     }
-    @GetMapping("/trainer/{id}")
+    @GetMapping("/trainers/{id}")
     public Trainer getTrainer(@PathVariable int id){
         return trainerDao.getTrainerById(id);
     }

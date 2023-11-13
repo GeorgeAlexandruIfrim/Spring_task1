@@ -30,7 +30,7 @@ public class UserDao {
     @Value("${user.csvFile}")
     private String csvFile;
     private final Logger logger = LogManager.getLogger(UserDao.class);
-    @Transactional
+
     public User createUser(User user) {
 
         List<String[]> existingData;

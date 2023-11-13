@@ -1,16 +1,16 @@
 package com.georgeifrim.Spring_task1.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 public class Trainee {
 
     public static int traineeId = 0;
-    LocalDate birthDate;
+    private LocalDate birthDate;
     private String address;
     private int userId;
 

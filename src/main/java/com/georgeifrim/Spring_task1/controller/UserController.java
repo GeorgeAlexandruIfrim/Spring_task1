@@ -17,24 +17,24 @@ public class UserController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     public User createUser(@RequestBody User user) {
         User createdUser = userDao.createUser(user);
         return createdUser;
     }
 
-    @GetMapping("/allUsers")
+    @GetMapping("/users")
     public TreeMap<Integer, User> getAllUsers(){
         return userDao.getUsers();
     }
 
-    @PutMapping("/updateUser/{id}")
+    @PutMapping("/users/{id}")
     public User updateUser(@PathVariable int id,
                            @RequestBody User user){
         return userDao.updateUser(id, user);
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @DeleteMapping("/users/{id}")
     public User deleteUser(@PathVariable int id){
         return userDao.deleteUser(id);
     }

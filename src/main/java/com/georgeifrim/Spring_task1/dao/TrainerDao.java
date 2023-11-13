@@ -35,7 +35,6 @@ public class TrainerDao {
         this.userDao = userDao;
     }
 
-    @Transactional
     public Trainer createTrainer(Trainer trainer) {
 
         if (!userDao.getUsers().containsKey(trainer.getUserId())) {
@@ -54,8 +53,6 @@ public class TrainerDao {
         logger.info("Trainer " + Trainer.trainerId + " created");
         return trainer;
     }
-
-    @Transactional
     public Trainer updateTrainer(int id, Trainer trainer){
         if(!trainers.containsKey(id) || !userDao.getUsers().containsKey(trainer.getUserId())){
             throw new RuntimeException("Trainer with id " + id + " does not exist or User with id " + trainer.getUserId() + " does not exist");

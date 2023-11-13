@@ -33,7 +33,7 @@ public class TraineeDao {
     public TraineeDao(UserDao userDao) {
         this.userDao = userDao;
     }
-    @Transactional
+
     public Trainee createTrainee(Trainee trainee) {
 
         if(!userDao.getUsers().containsKey(trainee.getUserId())){
@@ -52,6 +52,7 @@ public class TraineeDao {
         logger.info("Trainee " + Trainee.traineeId + " created");
         return trainee;
     }
+
     @Transactional
     public Trainee updateTrainee(int id, Trainee trainee) {
         if(!trainees.containsKey(id) || !userDao.getUsers().containsKey(trainee.getUserId())){
@@ -62,7 +63,6 @@ public class TraineeDao {
         return trainee;
     }
 
-    @Transactional
     public Trainee deleteTrainee(int id){
         if(!trainees.containsKey(id)){
             throw new RuntimeException("Trainee with id " + id + " does not exist");
@@ -82,7 +82,6 @@ public class TraineeDao {
     public TreeMap<Integer,Trainee> getTrainees() {
         return trainees;
     }
-
     @PostConstruct
     public void init() {
 
@@ -106,7 +105,6 @@ public class TraineeDao {
             throw new RuntimeException(e);
         }
     }
-
     @PreDestroy
     public void commitChanges() {
 

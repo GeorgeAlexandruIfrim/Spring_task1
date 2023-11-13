@@ -1,11 +1,11 @@
 package com.georgeifrim.Spring_task1.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
+@Data
 @Component
 public class TrainingType {
 

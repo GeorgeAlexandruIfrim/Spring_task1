@@ -1,12 +1,12 @@
 package com.georgeifrim.Spring_task1.entities;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
+@Data
 public class Training {
 
     public static int trainingId = 0;
