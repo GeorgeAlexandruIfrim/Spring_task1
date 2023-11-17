@@ -8,77 +8,55 @@ import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 
 @Repository
 @Getter
-public class UserDao {
+public class UserDao extends Dao<Integer, User> {
 
-    private final TreeMap<Integer,User> users = new TreeMap<>();
     @Value("${user.csvFile}")
     private String csvFile;
-    private final Logger logger = LogManager.getLogger(UserDao.class);
 
-    public User createUser(User user) {
-
-        List<String[]> existingData;
-        try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(csvFile)).build()) {
-            existingData = csvReader.readAll();
-            if(existingData.size() != 0 && !existingData.get(existingData.size() - 1)[0].equals("")){
-                User.userId = Integer.parseInt(existingData.get(existingData.size() - 1)[0])+1;
-            }
-            if(userExists(user)){
+    @Override
+    public User create(User user) {
+            if(userExists(user))
                 user.setUserName(user.getUserName() + " " + new Random().nextInt(10));
-            }
 
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
-        }
-        users.put(User.userId, user);
-
+        entities.put(id, user);
+        id++;
         logger.info("User " + user.getUserName() + " created");
 
         return user;
     }
 
-    public User updateUser(int id, User user) {
-        if(!users.containsKey(id)){
+    @Override
+    public User update(Integer id, User user) {
+        if(!entities.containsKey(id)){
             throw new RuntimeException("User with id " + id + " does not exist");
         }
-        users.put(id, user);
+        entities.put(id, user);
         logger.info("User with ID " + id + " was updated");
         return user;
     }
-    public User deleteUser(int id){
-        if(!users.containsKey(id)){
+    @Override
+    public User delete(Integer id){
+        if(!entities.containsKey(id)){
             throw new RuntimeException("User with id " + id + " does not exist");
         }
-        User deletedUser = users.get(id);
-        users.remove(id);
+        User deletedUser = entities.get(id);
+        entities.remove(id);
         logger.info("User with ID " + id + " was deleted");
         return deletedUser;
     }
-    public TreeMap<Integer,User> getUsers() {
-        return users;
-    }
-
-    public User getUserById(int id){
-        if(users.get(id) == null){
-            throw new RuntimeException("User with id " + id + " does not exist");
-        }
-        return users.get(id);
+    @Override
+    public HashMap<Integer,User> getAll() {
+        return entities;
     }
 
     @PreDestroy
@@ -86,7 +64,7 @@ public class UserDao {
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFile))) {
 
-            for (Map.Entry<Integer, User> entry : users.entrySet()) {
+            for (Map.Entry<Integer, User> entry : entities.entrySet()) {
                 Integer key = entry.getKey();
                 User value = entry.getValue();
                 String[] data = {key.toString(),
@@ -106,10 +84,14 @@ public class UserDao {
     public void init() {
 
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(csvFile)).build()) {
-            List<String[]> data = csvReader.readAll();
+
+            List<String[]> existingData = csvReader.readAll();
+
+            if(existingData.size() != 0 && !existingData.get(existingData.size() - 1)[0].equals(""))
+                id = Integer.parseInt(existingData.get(existingData.size() - 1)[0])+1;
 
             TreeMap<Integer, User> newUsers = new TreeMap<>();
-            for (String[] row : data) {
+            for (String[] row : existingData) {
                 if(row.length == 6){
                     int userId = Integer.parseInt(row[0]);
                     String firstName = row[1];
@@ -120,16 +102,15 @@ public class UserDao {
                     newUsers.put(userId, user);
                 }
             }
-
-            users.clear();
-            users.putAll(newUsers);
+            entities.clear();
+            entities.putAll(newUsers);
         } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
         }
     }
 
     public boolean userExists(User inputUser){
-        for (User existingUser : users.values()) {
+        for (User existingUser : entities.values()) {
             if(existingUser.getUserName().equals(inputUser.getUserName())){
                 return true;
             }

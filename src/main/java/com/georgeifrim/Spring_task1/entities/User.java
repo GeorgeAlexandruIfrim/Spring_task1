@@ -10,7 +10,6 @@ import java.util.Random;
 @Data
 public class User {
 
-    public static int userId = 0;
     private String firstName;
     private String lastName;
     private String userName;
@@ -18,7 +17,6 @@ public class User {
     private boolean isActive;
 
     public User(String firstName, String lastName, boolean isActive) {
-        userId++;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = firstName + "." + lastName;

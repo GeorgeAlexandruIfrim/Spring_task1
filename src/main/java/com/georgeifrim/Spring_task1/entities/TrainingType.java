@@ -6,7 +6,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 @Data
-@Component
 public class TrainingType {
 
     private static int trainingTypeId = 0;
